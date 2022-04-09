@@ -3,6 +3,7 @@
 import { Server } from "socket.io";
 import { createServer } from "http";
 import 'dotenv/config';
+import {addPersonToQueue} from './people.js';
 
 // const app = express();
 const PORT_NUMBER: number = parseInt((process.env.PORT_NUMBER || "3000") as string);
@@ -16,42 +17,6 @@ const httpServer = createServer();
 
 const io: Server = new Server(httpServer, options);
 
-const listOfTutorsInQueue: Tutor[] = [];
-const listOfStudentsInQueue: Student[] = [];
-
-interface Person {
-  id: string;
-  name: string;
-  role: string;
-}
-
-interface Student extends Person {
-  request: string;
-}
-
-interface Tutor extends Person {
-  expertise: string;
-}
-
-function addStudentToQueue(studentObj: Student) {
-  listOfStudentsInQueue.push(studentObj);
-}
-
-function addTutorToQueue(studentObj: Tutor) {
-  listOfTutorsInQueue.push(studentObj);
-}
-
-function addPersonToQueue(personString: string) {
-  const personObj: Person = JSON.parse(personString);
-  switch (personObj.role) {
-    case "tutor":
-      addTutorToQueue(personObj as Tutor);
-      break;
-    default:
-      addStudentToQueue(personObj as Student);
-      break;
-  }
-}
 
 io.on("connection", (socket) => {
   console.log(socket);
