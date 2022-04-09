@@ -1,0 +1,27 @@
+{
+  "name": "yhack22-hwhelp-server",
+  "version": "1.0.0",
+  "description": "repo for server side of real-time homework help app for yhack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ayma-n/yhack22-hwhelp-server.git"
+  },
+  "author": "Ayman and Jakobi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ayma-n/yhack22-hwhelp-server/issues"
+  },
+  "homepage": "https://github.com/Ayma-n/yhack22-hwhelp-server#readme",
+  "dependencies": {
+    "@tsconfig/node14": "^1.0.1",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.13",
+    "@types/socket.io": "^3.0.2",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3"
+  }
+}
