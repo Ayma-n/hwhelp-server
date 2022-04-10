@@ -5,7 +5,7 @@ import 'dotenv/config';
 import { setupWebSockets } from './sockets';
 
 // const app = express();
-const PORT_NUMBER: number = parseInt((process.env.PORT_NUMBER || "3000") as string);
+const PORT_NUMBER: number = parseInt((process.env.PORT_NUMBER || "8000") as string);
 
 const options: Object = {
   cors: {

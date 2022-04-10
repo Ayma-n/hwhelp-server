@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkMatchesInQueueForGivenPerson = exports.addPersonToQueue = void 0;
-const listOfTutorsInQueue = [];
-const listOfStudentsInQueue = [];
+exports.checkMatchesInQueueForGivenPerson = exports.addPersonToQueue = exports.listOfStudentsInQueue = exports.listOfTutorsInQueue = void 0;
+exports.listOfTutorsInQueue = [];
+exports.listOfStudentsInQueue = [];
 function addStudentToQueue(studentObj) {
-    listOfStudentsInQueue.push(studentObj);
+    exports.listOfStudentsInQueue.push(studentObj);
 }
 function addTutorToQueue(studentObj) {
-    listOfTutorsInQueue.push(studentObj);
+    exports.listOfTutorsInQueue.push(studentObj);
 }
 function addPersonToQueue(personObj) {
     switch (personObj.role) {
@@ -21,19 +21,26 @@ function addPersonToQueue(personObj) {
 }
 exports.addPersonToQueue = addPersonToQueue;
 function checkMatchesInQueueForGivenPerson(socket, personObj1) {
-    var listToSearch = listOfStudentsInQueue;
+    var listToSearch = exports.listOfStudentsInQueue;
+    var listToRemove = exports.listOfTutorsInQueue;
     switch (personObj1.role) {
         case "student":
-            listToSearch = listOfStudentsInQueue;
+            listToSearch = exports.listOfTutorsInQueue;
+            listToRemove = exports.listOfStudentsInQueue;
             break;
         default:
-            listToSearch = listOfTutorsInQueue;
+            listToSearch = exports.listOfStudentsInQueue;
+            listToRemove = exports.listOfTutorsInQueue;
             break;
     }
     if (listToSearch.length > 0) {
         const personObj2 = listToSearch.pop();
+        console.log("personObj2: ", personObj2);
         socket.to(personObj2.socketId).emit("waiting for queue", personObj1);
         socket.to(personObj1.socketId).emit("waiting for queue", personObj2);
+        socket.broadcast.emit("test", "testString");
+        console.log("match made: ", personObj1, personObj2);
+        listToRemove.pop();
     }
 }
 exports.checkMatchesInQueueForGivenPerson = checkMatchesInQueueForGivenPerson;

@@ -1,7 +1,7 @@
 import { Person, Student, Tutor } from './Types/Person';
 
-const listOfTutorsInQueue: Array<Tutor> = [];
-const listOfStudentsInQueue: Array<Student> = [];
+export const listOfTutorsInQueue: Array<Tutor> = [];
+export const listOfStudentsInQueue: Array<Student> = [];
 
 function addStudentToQueue(studentObj: Student) {
   listOfStudentsInQueue.push(studentObj);
@@ -24,18 +24,26 @@ export function addPersonToQueue(personObj: Person) {
 
 export function checkMatchesInQueueForGivenPerson(socket: any,personObj1: Person) {
   var listToSearch: Array<Person> = listOfStudentsInQueue;
+  var listToRemove: Array<Person> = listOfTutorsInQueue;
   switch(personObj1.role) {
     case "student":
-      listToSearch = listOfStudentsInQueue;
+      listToSearch = listOfTutorsInQueue;
+      listToRemove = listOfStudentsInQueue;
       break;
     default:
-      listToSearch = listOfTutorsInQueue;
+      listToSearch = listOfStudentsInQueue;
+      listToRemove = listOfTutorsInQueue
       break;
   }
     if(listToSearch.length > 0) {
       const personObj2 = listToSearch.pop() as Person;
+      console.log("personObj2: ", personObj2);
        // tell both peers that they are now matched
        socket.to(personObj2.socketId).emit("waiting for queue", personObj1);
        socket.to(personObj1.socketId).emit("waiting for queue", personObj2);
+       socket.broadcast.emit("test", "testString")
+       console.log("match made: ", personObj1, personObj2);
+       listToRemove.pop();
+       
     }
   }
