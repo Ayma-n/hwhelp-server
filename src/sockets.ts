@@ -14,7 +14,7 @@ export function setupWebSockets(httpServer: any, options: Object) {
         // TODO: fix, this is not good design
         console.log("list of students in queue: ", listOfStudentsInQueue);
         console.log("list of tutors in queue: ", listOfTutorsInQueue);
-        const timer = setInterval(checkMatchesInQueueForGivenPerson, 8000, socket, infoObj);
+        const timer = setInterval(checkMatchesInQueueForGivenPerson, 1000, socket, infoObj);
       });
       // sends when a student connects to a tutor
       socket.on("private message", ({ content, to }) => {
