@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkIfMatch = exports.setupWebSockets = void 0;
 const socket_io_1 = require("socket.io");
 const people_js_1 = require("./people.js");
+const uuid_1 = require("uuid");
 function setupWebSockets(httpServer, options) {
     const io = new socket_io_1.Server(httpServer, options);
     setInterval(checkIfMatch, 10, io);
@@ -18,6 +19,12 @@ function setupWebSockets(httpServer, options) {
                     content,
                     from: socket.id,
                 });
+            });
+            socket.on("caller setup", (req) => {
+                const firstPeerId = (0, uuid_1.v4)();
+                const secondPeerId = (0, uuid_1.v4)();
+                io.to(socket.id).emit("caller response", { callerPeerId: firstPeerId, receiverPeerId: secondPeerId });
+                io.to(req).emit("receiver response", secondPeerId);
             });
         });
     });
