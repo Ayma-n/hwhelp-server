@@ -41,6 +41,8 @@ export function checkMatchesInQueueForGivenPerson(socket: any,personObj1: Person
        // tell both peers that they are now matched
        socket.to(personObj2.socketId).emit("waiting for queue", personObj1);
        socket.to(personObj1.socketId).emit("waiting for queue", personObj2);
+       socket.to(personObj1.socketId).emit("test", "test string: personObj2");
+       console.log("person1 socket id", personObj1.socketId);
        socket.broadcast.emit("test", "testString")
        console.log("match made: ", personObj1, personObj2);
        listToRemove.pop();
